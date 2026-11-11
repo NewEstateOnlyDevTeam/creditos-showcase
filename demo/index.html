@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Credit OS · Live demo (fictional data)</title>
+<meta name="description" content="Live demo of CREDIT/OS, free credit-education software, running on a fictional report. Nothing is uploaded." />
+<link rel="icon" href="../assets/img/mark.svg" type="image/svg+xml">
+<link rel="stylesheet" href="styles.css" />
+<style>#demo-banner{position:fixed;z-index:99999;left:50%;transform:translateX(-50%);bottom:12px;max-width:calc(100% - 20px);display:flex;align-items:center;gap:10px;background:#0A1A2F;color:#E4E9F1;font:500 12.5px/1.35 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;padding:8px 14px 8px 10px;border-radius:10px;border:1px solid rgba(255,255,255,.14);box-shadow:0 10px 30px rgba(0,0,0,.45)}#demo-banner svg{width:20px;height:20px;flex:none}#demo-banner .dp{background:#F3CF8B;color:#3D2600;font-weight:700;font-size:10.5px;letter-spacing:.06em;padding:3px 7px;border-radius:999px;flex:none}#demo-banner a{color:#7FD1B2;text-decoration:none;white-space:nowrap}#demo-banner a:hover{text-decoration:underline}#demo-banner .t3{display:none}@media(max-width:560px){#demo-banner{font-size:11.5px;bottom:8px;white-space:nowrap;gap:8px;padding:7px 11px 7px 8px}#demo-banner .t1{display:none}#demo-banner .t3{display:inline}}</style>
+<script type="importmap">
+{ "imports": {
+  "three": "./node_modules/three/build/three.module.js",
+  "three/addons/": "./node_modules/three/examples/jsm/"
+} }
+</script>
+</head>
+<body>
+<div id="demo-banner" role="note"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#fff"/><rect x="8" y="9.5" width="16" height="2.4" rx="1.2" fill="#0A1A2F"/><rect x="8" y="14.8" width="10" height="2.4" rx="1.2" fill="#0A1A2F"/><circle cx="22.3" cy="16" r="2.3" fill="#2FB585"/><rect x="8" y="20.1" width="16" height="2.4" rx="1.2" fill="#0A1A2F"/></svg><span class="dp">DEMO DATA</span><span class="t1">Fictional person, not a real report<span class="t2"> · education only, no guarantees</span></span><span class="t3">Fictional data · no guarantees</span><a href="../">← <span class="t1">Back to </span>overview</a></div>
+<canvas id="sanct" aria-label="Santuario: your dispute houses" style="display:none"></canvas>
+<canvas id="scene" aria-label="3D view of your credit accounts across TransUnion, Experian and Equifax"></canvas>
+
+<!-- One-time acknowledgement before any report is read (see src/main.js consent()) -->
+<div id="consent" hidden>
+  <div class="consent-card glass" role="dialog" aria-modal="true" aria-labelledby="consent-h">
+    <div class="brand"><span class="brand-orb"></span><b>CREDIT</b><span class="slash">/</span><b class="os">OS</b></div>
+    <h1 id="consent-h">Before you start</h1>
+    <p class="lede">CREDIT/OS is a free self-help tool. Please confirm you understand how it works.</p>
+    <label class="ck"><input type="checkbox" /> <span>CREDIT/OS is <b>not a credit repair company</b>, law firm or financial adviser, and gives <b>general information, not legal advice</b>.</span></label>
+    <label class="ck"><input type="checkbox" /> <span>I will <b>only dispute information I believe is inaccurate, incomplete or unverifiable</b>. Disputing accurate information, or making false statements, can be illegal.</span></label>
+    <label class="ck"><input type="checkbox" /> <span>There is <b>no guarantee</b> of any result: nothing here promises deletions or a higher score. Results vary.</span></label>
+    <label class="ck"><input type="checkbox" /> <span>I have read the <a href="legal/terms.html" target="_blank" rel="noopener">Terms</a>, the <a href="legal/privacy.html" target="_blank" rel="noopener">Privacy Policy</a> and <a href="legal/disclosures.html" target="_blank" rel="noopener">Your Rights</a>, and I am 18 or older.</span></label>
+    <button class="btn primary" id="consent-go" type="button" disabled>I understand, continue</button>
+    <p class="consent-free">You can dispute errors directly with the credit bureaus <b>for free</b>, with or without this tool.</p>
+  </div>
+</div>
+
+<!-- Welcome: load a report (parsed in this browser only) or try the demo -->
+<div id="welcome" hidden>
+  <div class="welcome-card glass">
+    <div class="brand"><span class="brand-orb"></span><b>CREDIT</b><span class="slash">/</span><b class="os">OS</b></div>
+    <h1>Understand your credit report, and learn how to write your own letters.</h1>
+    <p class="lede">Free. Private. You do it yourself, the way federal law lets you.</p>
+    <ol class="steps">
+      <li><b>Get your 3-bureau report</b> from <a href="https://www.identityiq.com/" target="_blank" rel="noopener">IdentityIQ</a> and open the full report page (TransUnion, Experian and Equifax side by side). <small class="fine">IdentityIQ is a paid third-party service; CREDIT/OS is not affiliated with it and earns nothing from it. Your reports are free from each bureau at <a href="https://www.annualcreditreport.com/" target="_blank" rel="noopener">AnnualCreditReport.com</a>, but this tool can only read the IdentityIQ page format today.</small></li>
+      <li><b>Save the page:</b> press <kbd>⌘</kbd> <kbd>S</kbd> on Mac or <kbd>Ctrl</kbd> <kbd>S</kbd> on Windows, and save it as <i>Webpage</i> (.html).</li>
+      <li><b>Drop the file below.</b> CREDIT/OS checks every cell for conflicts between the bureaus and plans your disputes in rounds.</li>
+    </ol>
+    <label id="welcome-drop" class="drop">
+      <input type="file" id="welcome-file" accept=".html,.htm,text/html" />
+      <span class="drop-ic" aria-hidden="true">⇪</span>
+      <span><b>Choose your report file</b> or drag it here</span>
+      <span class="drop-busy" aria-hidden="true">Reading your report…</span>
+    </label>
+    <p id="welcome-error" role="alert"></p>
+    <div class="welcome-alt">No report handy? <button class="btn" id="welcome-demo" type="button">Try the demo report</button></div>
+    <ul class="promises">
+      <li>🔒 <b>Your report never leaves this device.</b> It is read by your browser and saved only in this browser’s storage. You can delete it anytime.</li>
+      <li>🆓 <b>Free, no account.</b> Credit repair companies may not charge you before their promised services are fully performed (15 U.S.C. § 1679b(b)), and you can always dispute errors yourself for free.</li>
+      <li>⚖️ <b>Not legal advice.</b> The findings are reasons to ask the bureaus to verify, not proof of error. Only dispute what you believe is inaccurate. No result is guaranteed.</li>
+    </ul>
+    <nav class="legal-links"><a href="legal/terms.html" target="_blank" rel="noopener">Terms</a> · <a href="legal/privacy.html" target="_blank" rel="noopener">Privacy</a> · <a href="legal/disclosures.html" target="_blank" rel="noopener">Your rights</a> · <a href="mailto:dvndigitalmarketinginfo@gmail.com">dvndigitalmarketinginfo@gmail.com</a></nav>
+  </div>
+</div>
+
+<!-- Boot sequence -->
+<div id="boot">
+  <div class="boot-core"></div>
+  <pre id="boot-log"></pre>
+  <button id="boot-skip">enter orbit ↵</button>
+</div>
+
+<header class="topbar glass">
+  <div class="brand">
+    <span class="brand-orb"></span>
+    <b>CREDIT</b><span class="slash">/</span><b class="os">OS</b>
+  </div>
+  <nav class="tabs" id="tabs">
+    <button data-tab="sanctuary" class="active"><i aria-hidden="true">♈</i>Santuario</button>
+    <button data-tab="orbit"><i aria-hidden="true">◎</i>Orbit</button>
+    <button data-tab="missions"><i aria-hidden="true">⚔</i>Missions</button>
+    <button data-tab="scanner"><i aria-hidden="true">⌁</i>Scanner <span class="count" id="scan-count"></span></button>
+    <button data-tab="letters"><i aria-hidden="true">✉</i>Letters</button>
+    <button data-tab="playbook"><i aria-hidden="true">⚖</i>Playbook</button>
+  </nav>
+  <div class="top-right">
+    <button class="pill" id="recon-pill" title="Your report">…</button>
+    <button class="icon-btn" id="spin" title="Pause rotation" aria-label="Pause rotation" aria-pressed="false">❚❚</button>
+    <button class="icon-btn" id="palette-btn" title="Search (⌘K)" aria-label="Search" aria-keyshortcuts="Meta+K">⌘K</button>
+    <button class="icon-btn" id="sound-btn" title="Sound" aria-label="Sound">♪</button>
+  </div>
+</header>
+
+<aside class="dials" id="dials"></aside>
+
+<aside class="inspector glass" id="inspector" inert></aside>
+
+<section class="sheet glass" id="sheet" inert></section>
+
+<footer class="timedock glass" id="timedock">
+  <button class="play" id="time-play" title="Play time forward" aria-label="Play time forward">▶</button>
+  <div class="time-main">
+    <div class="time-top">
+      <span class="kicker">TIME MACHINE</span>
+      <b id="time-read">Sep 2026</b>
+      <span id="time-stats"></span>
+    </div>
+    <div class="time-track">
+      <canvas class="time-chart" id="time-chart" role="img" aria-label="Negative accounts on file by month"></canvas>
+      <input type="range" id="time-range" min="0" max="100" value="0" step="1" aria-label="Time machine date" />
+      <div class="time-ticks" id="time-ticks"></div>
+    </div>
+  </div>
+  <button class="ghost-btn" id="time-reset">now</button>
+</footer>
+<div class="time-tip" id="time-tip" hidden></div>
+
+<div id="labels"></div>
+
+<section id="sanct-hud" aria-label="Santuario">
+  <div id="conquer" role="status" aria-live="polite"></div>
+  <div class="fire-clock glass" id="fire-clock" aria-label="Fire Clock: houses won"></div>
+  <div class="house-card glass" id="house-card"></div>
+  <div class="house-nav glass">
+    <button class="btn" id="house-prev" aria-label="Previous house">◀ Prev</button>
+    <span id="house-where"></span>
+    <button class="btn primary" id="house-next" aria-label="Next house">Next ▶</button>
+    <button class="btn ascend" id="ascend-btn" title="Preview the ending: what it looks like when every house is won" aria-label="Play the Ascension cinematic">✦ <span>Ascension</span></button>
+  </div>
+</section>
+
+<!-- The Ascension cinematic overlay: letterbox, trailer lines, white-out, title -->
+<div id="cine" hidden>
+  <div class="cine-bar top"><span id="cine-tag"></span></div>
+  <div class="cine-bar bottom"></div>
+  <div class="cine-line" id="cine-line" aria-live="polite"></div>
+  <div class="cine-white" id="cine-white"></div>
+  <div class="cine-title" id="cine-title"><small>CREDIT/OS</small><h1>Ascension</h1><p id="cine-sub"></p></div>
+  <button class="cine-skip" id="cine-skip">Skip ▸▸</button>
+</div>
+
+<nav class="legal-dock" aria-label="Legal"><a href="legal/terms.html" target="_blank" rel="noopener">Terms</a> · <a href="legal/privacy.html" target="_blank" rel="noopener">Privacy</a> · <a href="legal/disclosures.html" target="_blank" rel="noopener">Your rights</a> · Not legal advice</nav>
+<div class="hint" id="hint">drag to orbit · scroll to zoom · click a crystal · <kbd>⌘K</kbd> search</div>
+
+<div id="palette" class="palette-wrap" inert>
+  <div class="palette glass" role="dialog" aria-modal="true" aria-label="Search">
+    <input id="palette-input" placeholder="Jump to an account, dispute or tab…" autocomplete="off" role="combobox" aria-controls="palette-results" aria-expanded="true" aria-label="Jump to an account, dispute or tab" />
+    <div id="palette-results" role="listbox"></div>
+  </div>
+</div>
+
+<div id="toasts" role="status" aria-live="polite"></div>
+<div id="print-area"></div>
+
+<script type="module" src="src/main.js"></script>
+</body>
+</html>
