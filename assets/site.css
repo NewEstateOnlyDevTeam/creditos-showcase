@@ -157,7 +157,7 @@ h3,h4{font-family:var(--sans);font-weight:650;letter-spacing:-.01em;color:var(--
 /* founder */
 .founder{display:grid;grid-template-columns:340px 1fr;gap:64px;align-items:start}
 .photo{margin:0;position:sticky;top:96px}
-.photo img{border-radius:var(--r);border:1px solid var(--line);aspect-ratio:4/5;object-fit:cover;width:100%;filter:contrast(1.02)}
+.photo img{border-radius:var(--r);border:1px solid var(--line);aspect-ratio:3/4;object-fit:cover;width:100%;filter:contrast(1.02)}
 .photo figcaption{margin-top:12px;font-size:12.5px;color:var(--mut)}
 .founder h3{font:560 34px/1.1 var(--serif);letter-spacing:-.015em;margin:0 0 8px}
 .role{color:var(--acc);font-weight:600;margin:0 0 18px;font-size:15px}
@@ -245,3 +245,30 @@ h3,h4{font-family:var(--sans);font-weight:650;letter-spacing:-.01em;color:var(--
   .model,.card{padding:20px}.frame-bar .url{display:none}
 }
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn{transition:none}.reveal{opacity:1;transform:none;transition:none}}
+
+/* coding journey */
+.jstats{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--line);border-radius:var(--r);background:#fff;overflow:hidden;margin-bottom:56px}
+.jstats div{padding:22px 24px;border-right:1px solid var(--line)}.jstats div:last-child{border-right:0}
+.jstats b{font:560 34px/1 var(--serif);display:block;margin-bottom:8px;letter-spacing:-.02em}.jstats span{color:var(--mut);font-size:14px}
+.journey{list-style:none;margin:0;padding:0;position:relative}
+.journey:before{content:"";position:absolute;left:150px;top:8px;bottom:8px;width:1.5px;background:var(--line2)}
+.journey li{display:grid;grid-template-columns:150px 1fr;gap:0;padding:0 0 34px;position:relative}
+.journey li:last-child{padding-bottom:0}
+.journey .when{font:650 13px var(--sans);color:var(--ink);letter-spacing:.02em;padding:14px 28px 0 0;text-align:right}
+.journey li:after{content:"";position:absolute;left:145px;top:16px;width:12px;height:12px;border-radius:50%;background:#fff;border:2px solid var(--line2)}
+.journey li.now:after{background:var(--acc);border-color:var(--acc);box-shadow:0 0 0 4px var(--acc-soft)}
+.journey .what{padding-left:32px;min-width:0}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+.pcard{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px;box-shadow:var(--sh);display:flex;flex-direction:column;gap:6px}
+.pcard h4{margin:0;font-size:15.5px}.pcard p{margin:0;color:var(--ink2);font-size:14.5px;flex:1}
+.pcard .stack{align-self:flex-start;margin-top:6px;font:600 11.5px var(--sans);color:var(--acc2);background:var(--acc-soft);border-radius:6px;padding:3px 8px;letter-spacing:.01em}
+.pcard.plain{background:var(--soft);box-shadow:none}
+.pcard.star{border-color:var(--acc);box-shadow:0 0 0 3px var(--acc-soft),var(--sh)}
+.pcard.star h4:after{content:"Going all-in";margin-left:10px;font:650 10.5px var(--sans);text-transform:uppercase;letter-spacing:.08em;color:#fff;background:var(--acc);padding:3px 7px;border-radius:999px;vertical-align:2px}
+html[lang=es] .pcard.star h4:after{content:"Todo o nada"}
+.takeaway{margin:48px 0 0;font:italic 450 clamp(20px,2.2vw,26px)/1.4 var(--serif);color:var(--ink);border-left:2px solid var(--acc);padding-left:20px;max-width:760px}
+@media (max-width:700px){
+  .jstats{grid-template-columns:1fr}.jstats div{border-right:0;border-bottom:1px solid var(--line)}.jstats div:last-child{border-bottom:0}
+  .journey:before{left:5px}.journey li{grid-template-columns:1fr;padding-left:28px}.journey li:after{left:0;top:3px}
+  .journey .when{text-align:left;padding:0 0 10px}.journey .what{padding-left:0}
+}
