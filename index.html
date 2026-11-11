@@ -33,13 +33,32 @@
 </header>
 
 <main>
+<!-- CINEMATIC BANNER -->
+<section class="cine" aria-labelledby="cine-h">
+  <picture>
+    <source type="image/webp" srcset="assets/img/cinematic-table-800.webp 800w, assets/img/cinematic-table-1280.webp 1280w" sizes="100vw">
+    <img class="cine-img" src="assets/img/cinematic-table-1280.jpg" srcset="assets/img/cinematic-table-800.jpg 800w, assets/img/cinematic-table-1280.jpg 1280w" sizes="100vw" width="1280" height="720" alt="AI-styled image: Isaiah at a dark table with three credit bureau reports linked by red lines">
+  </picture>
+  <div class="cine-shade"></div>
+  <div class="wrap cine-copy">
+    <p class="eyebrow" data-i18n="cine.eb">Credit OS · free credit education</p>
+    <h1 id="cine-h" data-i18n="cine.h">The three bureaus don't agree about you. <em>Credit OS shows you where.</em></h1>
+    <p class="cine-lede" data-i18n="cine.p">Same person, three reports, different stories. See every mismatch in minutes, privately, in your own browser.</p>
+    <div class="cta-row">
+      <a class="btn light lg" href="demo/" target="_blank" rel="noopener" data-i18n="cine.try">See the live demo ↗</a>
+      <a class="btn on-dark lg" href="#contact" data-i18n="hero.book">Book a 15-minute demo</a>
+    </div>
+  </div>
+  <span class="cine-cap" data-i18n="cine.cap">AI-styled image</span>
+</section>
+
 <!-- HERO -->
 <section class="hero">
  <div class="wrap">
   <div class="hero-grid">
     <div class="reveal">
       <p class="eyebrow" data-i18n="hero.eyebrow">Credit education software · Built in Orlando, FL</p>
-      <h1 data-i18n="hero.h1">Credit reports are confusing. <em>Credit OS makes them readable.</em></h1>
+      <h2 class="h1" data-i18n="hero.h1">Credit reports are confusing. <em>Credit OS makes them readable.</em></h2>
       <p class="lede" data-i18n="hero.lede">Drop in a 3-bureau report. Credit OS shows where TransUnion, Experian and Equifax disagree, explains your rights with the source, and helps you write your own letters. The report never leaves your browser.</p>
       <div class="cta-row">
         <a class="btn primary lg" href="demo/" target="_blank" rel="noopener" data-i18n="hero.try">Try the live demo ↗</a>
@@ -185,8 +204,8 @@
   <h2 data-i18n="f.h">Who I am</h2>
   <div class="founder">
     <figure class="photo">
-      <picture><source srcset="assets/img/founder-portrait-v2.webp" type="image/webp"><img src="assets/img/founder-portrait-v2.jpg" alt="AI-styled portrait of Isaiah Fernandez in a navy suit holding three credit bureau reports" width="864" height="1152" loading="lazy"></picture>
-      <figcaption data-i18n="f.cap">AI-styled portrait</figcaption>
+      <picture><source srcset="assets/img/founder-poster.webp" type="image/webp"><img src="assets/img/founder-poster.jpg" alt="AI-styled image of Isaiah Fernandez in a dark suit holding three credit bureau reports" width="864" height="1152" loading="lazy"></picture>
+      <figcaption data-i18n="f.cap">AI-styled image</figcaption>
     </figure>
     <div>
       <h3>Isaiah Fernandez</h3>
@@ -325,6 +344,7 @@
   <a class="logo" href="#top"><svg><use href="#mark-w"/></svg>Credit <span>OS</span></a>
   <p data-i18n="foot.1"><b>Not an offer to sell securities.</b> This site is for information only and is not an offer to sell, or a solicitation of an offer to buy, any security. Any future financing would be offered only through proper legal documents, and only where permitted.</p>
   <p data-i18n="foot.2">Credit OS is credit-education software. It is not a credit repair organization and does not provide legal advice. No result is guaranteed. Market figures come from the public sources linked above. Financial scenarios are illustrative, not forecasts.</p>
+  <p data-i18n="foot.tm">TransUnion, Experian and Equifax are trademarks of their respective owners. Credit OS is not affiliated with or endorsed by them.</p>
   <p class="fine">© 2026 Isaiah Fernandez · DVN Digital Marketing</p>
 </div></footer>
 <script src="assets/app.js" defer></script>

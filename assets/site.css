@@ -46,7 +46,7 @@ main{display:block}
 
 /* type */
 h1,h2{font-family:var(--serif);font-weight:560;letter-spacing:-.018em;color:var(--ink)}
-h1{font-size:clamp(38px,5.4vw,64px);line-height:1.04;margin:0 0 22px}
+h1,h2.h1{font-size:clamp(38px,5.4vw,64px);line-height:1.04;margin:0 0 22px}
 h1 em,h2 em{font-style:italic;color:var(--acc);font-weight:500}
 h2{font-size:clamp(28px,3.4vw,42px);line-height:1.1;margin:0 0 14px}
 h3,h4{font-family:var(--sans);font-weight:650;letter-spacing:-.01em;color:var(--ink)}
@@ -271,4 +271,28 @@ html[lang=es] .pcard.star h4:after{content:"Todo o nada"}
   .jstats{grid-template-columns:1fr}.jstats div{border-right:0;border-bottom:1px solid var(--line)}.jstats div:last-child{border-bottom:0}
   .journey:before{left:5px}.journey li{grid-template-columns:1fr;padding-left:28px}.journey li:after{left:0;top:3px}
   .journey .when{text-align:left;padding:0 0 10px}.journey .what{padding-left:0}
+}
+
+/* cinematic banner */
+.cine{position:relative;min-height:min(88vh,820px);display:flex;align-items:flex-end;background:#05090F;color:#fff;overflow:hidden;isolation:isolate}
+.cine picture,.cine-img{position:absolute;inset:0;width:100%;height:100%}
+.cine-img{object-fit:cover;object-position:50% 35%;z-index:-2}
+.cine picture{z-index:-2}
+@media (min-width:701px){.cine picture{left:12%}.cine-lede{max-width:500px}}
+.cine-shade{position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,#05090F 0%,#05090F 12%,rgba(5,9,15,.82) 26%,rgba(5,9,15,.45) 44%,rgba(5,9,15,.05) 60%,rgba(5,9,15,.25) 100%),linear-gradient(0deg,rgba(5,9,15,.85) 0%,rgba(5,9,15,0) 45%)}
+.cine-copy{width:100%;padding-top:120px;padding-bottom:72px}
+.cine h1{color:#fff;max-width:560px;font-size:clamp(36px,4.2vw,56px);text-shadow:0 2px 24px rgba(0,0,0,.4)}
+.cine h1 em{color:#7FD1B2}
+.cine .eyebrow{color:#7FD1B2}
+.cine-lede{color:#D5DCE6;font-size:clamp(17px,1.5vw,19.5px);max-width:520px;margin:0}
+.cine .cta-row{margin-bottom:0}
+.cine-cap{position:absolute;right:16px;bottom:12px;font-size:11.5px;color:rgba(255,255,255,.7);background:rgba(5,9,15,.55);padding:3px 9px;border-radius:999px;letter-spacing:.02em}
+.hero{padding-top:80px}
+@media (max-width:700px){
+  .cine{display:block;min-height:0;background:#05090F}
+  .cine picture,.cine-img{position:relative;inset:auto;height:auto;aspect-ratio:16/9}
+  .cine-img{object-position:50% 30%}
+  .cine-shade{inset:0 0 auto 0;height:calc(100vw * 9 / 16 + 2px);background:linear-gradient(0deg,#05090F 0%,rgba(5,9,15,0) 55%)}
+  .cine-copy{padding-top:8px;padding-bottom:48px}
+  .cine-cap{top:calc(100vw * 9 / 16 - 30px);bottom:auto;right:10px}
 }
